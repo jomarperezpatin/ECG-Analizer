@@ -1,0 +1,22 @@
+
+import React, { useEffect, useRef, useState } from 'react';
+import Plotly from 'plotly.js-dist-min';
+const labels = { none: 'Sin filtro', moving: 'Media móvil (convolución)', notch: 'Notch 60 Hz', bandpass: 'Paso banda 0.5–40 Hz', combined: 'Notch + paso banda' };
+export default function FrequencyAnalysis({ study, onApply, disabled = false, onBusy }) {
+  const kind = 'moving';
+  const [windowSize, setWindowSize] = useState(study.window || 10), [busy, setBusy] = useState(false), [error, setError] = useState('');
+  const plot = useRef(null), alive = useRef(true), queue = useRef(Promise.resolve());
+  useEffect(() => { alive.current = true; return () => { alive.current = false; }; }, []);
+  useEffect(() => {
+    const el = plot.current; if (!el || !study.frequency) return;
+    const traces = [{ x: study.frequency, y: study.original_spectrum, name: 'Original', mode: 'lines', line: { color: '#a9c9ed' } }, { x: study.frequency, y: study.filtered_spectrum, name: 'Procesada', mode: 'lines', line: { color: '#49dfa8' } }];
+    let stale = false;
+    queue.current = queue.current.catch(() => { }).then(() => { if (stale || !el.isConnected) return; return Plotly.react(el, traces, { height: 330, autosize: true, paper_bgcolor: '#101d29', plot_bgcolor: '#0a191b', font: { color: '#b9c9d7' }, margin: { l: 65, r: 20, t: 40, b: 55 }, legend: { orientation: 'h' }, xaxis: { title: 'Frecuencia (Hz)', gridcolor: '#233e44' }, yaxis: { title: 'Amplitud espectral', gridcolor: '#233e44' } }, { responsive: true, displaylogo: false, scrollZoom: true }); }).catch(e => { if (!stale) setError(String(e.message || e)); });
+    return () => { stale = true; };
+  }, [study.frequency, study.original_spectrum, study.filtered_spectrum]);
+  useEffect(() => { const el = plot.current; return () => { if (el) queue.current.finally(() => Plotly.purge(el)); }; }, []);
+  async function apply() { setBusy(true); onBusy?.(true); setError(''); try { if (typeof window.ecgDesktop?.backend !== 'function') throw new Error('Abre ECG Analyzer desde Electron (npm.cmd run dev:desktop).'); const result = await window.ecgDesktop.backend('analyze', { raw: study.raw, fs: study.fs, kind, window: kind === 'moving' ? Number(windowSize) : 10, timestamps: study.time }); if (alive.current) onApply(result); } catch (e) { if (alive.current) setError(String(e.message || e)); } finally { if (alive.current) setBusy(false); onBusy?.(false); } }
+  return <section className="panel"><span className="eyebrow">03 / PROCESAMIENTO DIGITAL</span><h2>Convolución y espectro FFT</h2><p className="muted small">Único filtro: media móvil por convolución discreta. La señal original se conserva. FFT opcional, no es un filtro ni una evaluación clínica.</p><div className="fields"><label>Ventana (muestras)<input type="number" min="2" max="50" step="1" value={windowSize} disabled={busy || disabled} onChange={e => setWindowSize(e.target.value)} /></label></div><button className="primary" disabled={busy || disabled || !Number.isInteger(Number(windowSize)) || Number(windowSize) < 2 || Number(windowSize) > 50} onClick={apply}>{busy ? 'Procesando…' : 'Aplicar convolución y calcular FFT'}</button>{error && <p className="warn" role="alert">{error}</p>}{study.timing === 'nominal' && <p className="warn small">FFT y eje temporal estimados con 100 Hz nominales; el firmware original no transmite marcas de tiempo.</p>}
+    {study.frequency && <><p className="small muted">Filtro aplicado: {labels[study.filter_kind]} · Fs estimada: {study.analysis_fs.toFixed(2)} Hz · Resolución FFT: {study.resolution.toFixed(2)} Hz</p><div className="stats"><div className="metric"><small>Frecuencia dominante original (sin DC)</small><strong>{study.original_peak == null ? '—' : study.original_peak.toFixed(2) + ' Hz'}</strong></div><div className="metric"><small>Frecuencia dominante procesada</small><strong>{study.filtered_peak == null ? '—' : study.filtered_peak.toFixed(2) + ' Hz'}</strong></div></div></>}
+    <div ref={plot} style={{ display: study.frequency ? 'block' : 'none' }} /><p className="small muted">FFT de amplitud con ventana Hann, sin componente continua. Un pico no equivale a frecuencia cardíaca. La convolución de media móvil es causal. Los primeros valores sin ventana completa se omiten.</p>{study.mode !== 'simulation' && study.lead?.includes(1) && <p className="warn small">Desconexión LO detectada: no interpretar como ECG.</p>}</section>;
+}

@@ -1,0 +1,46 @@
+TAP version 13
+# Subtest: convolución discreta completa
+ok 1 - convolución discreta completa
+  ---
+  duration_ms: 1.095403
+  type: 'test'
+  ...
+# Subtest: tiempo y muestras coherentes en todas las tasas
+ok 2 - tiempo y muestras coherentes en todas las tasas
+  ---
+  duration_ms: 7.862394
+  type: 'test'
+  ...
+# Subtest: formulario paciente y cálculo IMC
+ok 3 - formulario paciente y cálculo IMC
+  ---
+  duration_ms: 0.254472
+  type: 'test'
+  ...
+# Subtest: intervalo en milisegundos
+ok 4 - intervalo en milisegundos
+  ---
+  duration_ms: 0.099459
+  type: 'test'
+  ...
+# Subtest: capture diagnostics use real sample values and do not infer LO if absent
+ok 5 - capture diagnostics use real sample values and do not infer LO if absent
+  ---
+  duration_ms: 0.252298
+  type: 'test'
+  ...
+# Subtest: nombre completo, código y validación de longitud
+ok 6 - nombre completo, código y validación de longitud
+  ---
+  duration_ms: 0.127702
+  type: 'test'
+  ...
+1..6
+# tests 6
+# suites 0
+# pass 6
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 66.45153

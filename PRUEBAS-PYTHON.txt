@@ -1,0 +1,53 @@
+test_api (test_analysis.TestAnalysis.test_api) ... ok
+test_constant (test_analysis.TestAnalysis.test_constant) ... ok
+test_irregular (test_analysis.TestAnalysis.test_irregular) ... ok
+test_legacy_experimental_denied (test_analysis.TestAnalysis.test_legacy_experimental_denied) ... ok
+test_moving (test_analysis.TestAnalysis.test_moving) ... ok
+test_removed_filters (test_analysis.TestAnalysis.test_removed_filters) ... ok
+test_convolution (test_backend.TestBackend.test_convolution) ... ok
+test_health (test_backend.TestBackend.test_health) ... ok
+test_port_error (test_backend.TestBackend.test_port_error) ... ok
+test_ports_mocked (test_backend.TestBackend.test_ports_mocked) ... ok
+test_simulation (test_backend.TestBackend.test_simulation) ... ok
+test_validation (test_backend.TestBackend.test_validation) ... ok
+test_corrupt_archive (test_backup.BackupTests.test_corrupt_archive) ... ok
+test_invalid_path (test_backup.BackupTests.test_invalid_path) ... ok
+test_legacy_patient_ids_and_gridfs (test_backup.BackupTests.test_legacy_patient_ids_and_gridfs) ... ok
+test_managed_only (test_backup.BackupTests.test_managed_only) ... ok
+test_no_overwrite (test_backup.BackupTests.test_no_overwrite) ... ok
+test_roundtrip (test_backup.BackupTests.test_roundtrip) ... ok
+test_selection (test_backup.BackupTests.test_selection) ... ok
+test_truncated (test_backup.BackupTests.test_truncated) ... ok
+test_wrong_schema (test_backup.BackupTests.test_wrong_schema) ... ok
+test_legacy_api (test_bench.LegacyTests.test_legacy_api) ... ok
+test_legacy_reads_raw (test_bench.LegacyTests.test_legacy_reads_raw) ... ok
+test_legacy_requires_bench (test_bench.LegacyTests.test_legacy_requires_bench) ... ok
+test_no_confusion_with_protocol (test_bench.LegacyTests.test_no_confusion_with_protocol) ... ok
+test_numeric_format (test_bench.LegacyTests.test_numeric_format) ... ok
+test_structured_100 (test_bench.LegacyTests.test_structured_100) ... ok
+test_api_reject (test_bench.Tests.test_api_reject) ... ok
+test_cancel (test_bench.Tests.test_cancel) ... ok
+test_capture (test_bench.Tests.test_capture) ... ok
+test_experimental_confirmation (test_bench.Tests.test_experimental_confirmation) ... ok
+test_experimental_lo (test_bench.Tests.test_experimental_lo) ... ok
+test_gap (test_bench.Tests.test_gap) ... ok
+test_leads_disabled (test_bench.Tests.test_leads_disabled) ... ok
+test_permission_error (test_bench.Tests.test_permission_error) ... ok
+test_stop_failure_preserves_capture_error (test_bench.Tests.test_stop_failure_preserves_capture_error) ... ok
+test_process (test_launch.NewTests.test_process) ... ok
+test_report_exports (test_launch.NewTests.test_report_exports) ... ok
+test_token (test_launch.NewTests.test_token) ... ok
+test_legacy_metadata (test_storage.LegacyStorageTests.test_legacy_metadata) ... ok
+test_archive_mock (test_storage.StorageTests.test_archive_mock) ... ok
+test_experimental_storage (test_storage.StorageTests.test_experimental_storage) ... ok
+test_invalid_bench (test_storage.StorageTests.test_invalid_bench) ... ok
+test_invalid_patient_name (test_storage.StorageTests.test_invalid_patient_name) ... ok
+test_invalid_samples (test_storage.StorageTests.test_invalid_samples) ... ok
+test_list_search (test_storage.StorageTests.test_list_search) ... ok
+test_prepare_and_png (test_storage.StorageTests.test_prepare_and_png) ... ok
+test_unavailable (test_storage.StorageTests.test_unavailable) ... ok
+
+----------------------------------------------------------------------
+Ran 48 tests in 3.295s
+
+OK

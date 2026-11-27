@@ -1,0 +1,10 @@
+ECG Analyzer 1.0.0 — actualización completa
+1. Respalda MongoDB. Cierra la app. Descomprime en una carpeta nueva.
+2. Ejecuta generar-actualizacion.cmd y espera a que termine el proceso local.
+3. Ejecuta release/ECG-Analyzer-Setup-1.0.0-x64.exe (resultado esperado), misma ubicación anterior. MongoDB se instala por separado.
+4. Carga el nuevo firmware/ECG_Mega/ECG_Mega.ino si deseas 100 Hz con supervisión LO, o conserva el firmware anterior seleccionando 250 Hz.
+5. Para el sketch numérico original (incluido en firmware/ECG_Original_Banco): 100 Hz + 1000 muestras + Adquirir señal real + Prueba de banco + Original: solo ADC. Sin personas conectadas. Tiempo nominal, sin LO ni secuencia. Consulta README.md.
+6. Único filtro nuevo: convolución/media móvil. FFT es un análisis opcional. No se sustituyen fallos por simulación. Se mantienen advertencias de seguridad y etiquetas de origen; no es diagnóstico.
+7. El ZIP es código fuente y generador, no EXE compilado. 48 pruebas Python y 6 Node superadas con hardware y MongoDB simulados; falta validar Windows/Arduino reales.
+8. Nombre del paciente o código: ambos se aceptan. Protege nombres y estudios reales; no se cifran ni se deben subir a GitHub.
+9. Consulta GUIA-GITHUB.md para publicar código y EXE.

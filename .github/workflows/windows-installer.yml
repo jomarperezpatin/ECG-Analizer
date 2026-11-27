@@ -1,0 +1,43 @@
+name: Compilar instalador Windows
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: windows-2022
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          architecture: 'x64'
+      - name: Preparar entorno Python
+        shell: pwsh
+        run: python -m venv .venv
+      - name: Instalar dependencias
+        shell: pwsh
+        run: .\instalar-desarrollo.ps1
+      - name: Pruebas Python y Node
+        shell: pwsh
+        run: |
+          Push-Location backend
+          & ..\.venv\Scripts\python.exe -m unittest discover -v
+          if ($LASTEXITCODE -ne 0) { throw 'Pruebas Python fallidas' }
+          Pop-Location
+          npm.cmd test
+          if ($LASTEXITCODE -ne 0) { throw 'Pruebas Node fallidas' }
+      - name: Empaquetar aplicación
+        shell: pwsh
+        run: .\crear-instalador.ps1
+      - name: Publicar artefacto de compilación
+        uses: actions/upload-artifact@v4
+        with:
+          name: ECG-Analyzer-Windows-x64
+          path: release/ECG-Analyzer-Setup-1.0.0-x64.exe
+          if-no-files-found: error
+          retention-days: 14
